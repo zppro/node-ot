@@ -1,6 +1,6 @@
 {
   "name": "node-ot",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "online tools",
   "main": "lib/index.js",
   "scripts": {

@@ -9,6 +9,7 @@ import qr from 'qr-image';
 import sharp from 'sharp';
 import co from 'co';
 import streamToArray from 'stream-to-array';
+import 'babel-polyfill';//执行模块，特别是需要用到定义的全局变量给es5使用
 
 
 var server = http.createServer(function (req, res) {
@@ -24,8 +25,11 @@ var server = http.createServer(function (req, res) {
                     return o instanceof Buffer ? o : new Buffer(o);
                 });
                 let bufferQR = Buffer.concat(buffers);
-                let iconBuffer = yield sharp(path.join(__dirname,'img/05.jpg')).resize(57,57).toBuffer();
-                let compositStream = sharp(bufferQR).overlayWith(iconBuffer);
+                let qrStream = sharp(bufferQR);
+                let qrInfo = yield qrStream.metadata();
+
+                let iconBuffer = yield sharp(path.join(__dirname,'img/05.jpg')).resize(Math.round(qrInfo.width/5),Math.round(qrInfo.height/5)).toBuffer();
+                let compositStream = qrStream.overlayWith(iconBuffer);
 
                 res.writeHead(200, {'Content-Type': 'image/png'});
                 compositStream.pipe(res);
