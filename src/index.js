@@ -5,38 +5,31 @@
 import http from 'http';
 import url from 'url';
 import path from 'path';
-import path from 'path';
 import qr from 'qr-image';
 import sharp from 'sharp';
+import co from 'co';
 
-var server = http.default.createServer(function (req, res) {
-    try {
+var server = http.createServer(function (req, res) {
+    co(function*() {
 
         if (req.url.startsWith('/?text')) {
-            var text = _url2.default.parse(req.url, true).query.text;
+            let text = url.parse(req.url, true).query.text;
             try {
-                console.log(text);
-                var img = _qrImage2.default.image(text, { size: 20, customize: addlogo });
 
-                console.log(1);
-                var o = GetEmbedded(_path2.default.join(__dirname, 'img/logo-single.png'));
+                var img = qr.image(text, {size: 10});
 
-                console.log(3);
-                console.log(o.then(function (a, b) {
-                    console.log(a);
-                    console.log(b);
-                }));
+                let buffer = yield sharp(path.join(__dirname,'img/05.jpg')).toBuffer()
 
-                res.writeHead(200, { 'Content-Type': 'image/png' });
+                
+
+                res.writeHead(200, {'Content-Type': 'image/png'});
                 img.pipe(res);
             } catch (e) {
-                res.writeHead(414, { 'Content-Type': 'text/html' });
+                res.writeHead(414, {'Content-Type': 'text/html'});
                 res.end('<h1>414 Request-URI Too Large' + text + '</h1>');
             }
         }
-    } catch (err) {
-        res.end(err.toString());
-    }
+    });
 });
 server.listen(9999);
 console.log('listen 9999...');
