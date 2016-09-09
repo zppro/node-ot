@@ -1,6 +1,6 @@
 {
   "name": "node-ot",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "online tools",
   "main": "lib/index.js",
   "scripts": {
@@ -26,7 +26,6 @@
     "co": "^4.6.0",
     "qr-image": "^3.1.0",
     "sharp": "^0.16.0",
-    "stream-buffers": "^3.0.1",
     "stream-to-array": "^2.3.0"
   },
   "devDependencies": {
