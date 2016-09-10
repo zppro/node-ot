@@ -76,8 +76,9 @@ var server = http.createServer(function (req, res) {
                 compositStream.pipe(res);
             } catch (e) {
                 console.log(e);
+                console.dir(e);
                 res.writeHead(414, {'Content-Type': 'text/html'});
-                res.end('<h1>414 Request-URI Too Large' + e.message + '</h1>');
+                res.end('<h1>414 error:' + e + '</h1>');
             }
         }
     });
