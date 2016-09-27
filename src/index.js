@@ -71,7 +71,11 @@ var server = http.createServer(function (req, res) {
                     .background({r:255,g:255,b:255,a:1})
                     .extend(2)
                     .toBuffer();
-                let compositStream = qrStream.overlayWith(iconBuffer);
+
+                //const rect = new Buffer(
+                //    '<svg><rect x="0" y="0" width="100%" height="100%" rx="50" ry="50"/></svg>'
+                //);
+                let compositStream = qrStream.overlayWith(iconBuffer);//.overlayWith(rect, { cutout: true });
 
                 compositStream.pipe(res);
             } catch (e) {
