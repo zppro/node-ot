@@ -5,7 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel-node src/index.js",
+    "start": "node lib/index.js",
+    "dev": "babel-node src/index.js",
     "build": "babel src --out-dir lib"
   },
   "repository": {
