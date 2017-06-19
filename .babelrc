@@ -8,5 +8,5 @@
             "transform-object-rest-spread",
             "transform-strict-mode"
     ],
-    "presets":["es2015","es2017"]
+    "presets":["es2015", "es2017"]
 }
