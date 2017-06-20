@@ -12,6 +12,7 @@ import thunkify from 'thunkify';
 import thunkToPromise from 'thunk-to-promise';
 import log4js from 'log4js';
 import combinedLogger from './components/combined-logger'
+import lazyLoader from './components/lazy-loader'
 
 import Koa from 'koa';
 import Router from 'koa-router';
@@ -78,12 +79,18 @@ app.combinedLogger = combinedLogger;
     console.log('configure logs...');
     log4js.configure({
         appenders: serviceNames.map((o)=>{
+            // let result = require("babel-core").transform("import('./components/qr-builder').then((qrBuilder) => {console.log(qrBuilder);});", {
+            //     plugins: ["dynamic-import-node"]
+            // });
+            // console.log(result.code);
+            // const qrBuilder = await lazyLoader.dynamicImport('./components/qr-builder', __dirname);
+            // const utils = await lazyLoader.dynamicImport('../components/utils');
+            // console.log(qrBuilder, utils);
             let svc = require(`${app.conf.dir.services}/${o}`).default, getLogConfig = svc.getLogConfig;
             if (getLogConfig && typeof getLogConfig === 'function') {
                 return svc.getLogConfig(app);
             } else {
                 var logName = `svc_${o}.js`;
-                console.log(logName)
                 return {
                     type: 'dateFile',
                     filename: path.join(app.conf.dir.log, logName),

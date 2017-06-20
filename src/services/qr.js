@@ -9,7 +9,7 @@ const qrService = {
         this.routerUrl = routerUrl;
         initOptions = initOptions || {};
 
-        console.log(`this.routerUrl:${this.routerUrl}`)
+        // console.log(`this.routerUrl:${this.routerUrl}`)
 
         let self = this;
 
