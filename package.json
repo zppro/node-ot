@@ -1,13 +1,13 @@
 {
   "name": "node-ot",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "description": "online tools",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=production node lib/index.js",
+    "start": "NODE_ENV=production node output/index.js",
     "dev": "NODE_ENV=development babel-node src/index.js",
-    "build": "babel src --out-dir lib"
+    "build": "babel src --out-dir output"
   },
   "repository": {
     "type": "git",

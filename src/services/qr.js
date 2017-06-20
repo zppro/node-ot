@@ -1,32 +1,59 @@
 /**
  * Created by zppro on 17-6-19.
  */
+import log4js from 'log4js';
 import qrBuilder from '../components/qr-builder';
 const qrService = {
     init: function (routerUrl, initOptions) {
+
         this.routerUrl = routerUrl;
         initOptions = initOptions || {};
-        var self = this;
 
-        this.logger4j =  initOptions.log4j.getLogger(initOptions.log_name || ('svc_' + this.file.substr(__filename.lastIndexOf('/') + 1)));
-        if (this.logger4j) {
-            this.logger4j.info(__filename + " loaded!");
-        }
+        console.log(`this.routerUrl:${this.routerUrl}`)
+
+        let self = this;
+
+        this.logger4js =  log4js.getLogger(initOptions.log_name || ('svc_' + __filename.substr(__filename.lastIndexOf('/') + 1)));
+        this.logger4js.info(__filename + " loaded!");
 
         this.actions = [
             {
                 method: 'qr',
                 verb: 'get',
-                url: this.routerUrl + "/qr",
+                url: this.routerUrl,
                 handler: function (app, options) {
                     return async(ctx, next) => {
                         try {
-                            var query = ctx.query;
+                            let query = ctx.query;
                             let qrStream = await qrBuilder.getQRStream(query.text, query.ei);
-                            qrStream.pipe(ctx.response);
+                            ctx.response.type = 'image/png';
+                            ctx.body = qrStream;
+
                         } catch (e) {
-                            app.combinedLogger.log(self.logger, ex);
-                            this.body = app.wrapper.res.error(e);
+                            app.combinedLogger.log(self.logger4js, e);
+                            ctx.body = app.wrapper.res.error(e);
+
+                        }
+                        await next;
+                    };
+                }
+            },
+            {
+                method: 'qr',
+                verb: 'post',
+                url: this.routerUrl,
+                handler: function (app, options) {
+                    return async(ctx, next) => {
+                        try {
+                            let body = ctx.request.body;
+                            console.log('body:', body);
+                            let qrStream = await qrBuilder.getQRStream(body.text, body.ei);
+                            ctx.response.type = 'image/png';
+                            ctx.body = qrStream;
+                        } catch (e) {
+                            app.combinedLogger.log(self.logger4js, e);
+                            ctx.body = app.wrapper.res.error(e);
+
                         }
                         await next;
                     };
@@ -37,4 +64,4 @@ const qrService = {
     }
 }
 
-export default qrService.init();
+export default qrService;

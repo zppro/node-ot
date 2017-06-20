@@ -8,6 +8,8 @@ import qr from 'qr-image';
 import sharp from 'sharp';
 import streamToArray from 'stream-to-array';
 
+import utils from './utils'
+
 const _getRemoteImg = (eiUrl) => {
 
     return new Promise(function(reslove,reject){
@@ -39,6 +41,12 @@ const _getRemoteImg = (eiUrl) => {
 
 
 const getQRStream = async(qrText, qrEI) => {
+    if(utils.isObject(qrText)) {
+        qrText = JSON.stringify(qrText);
+    }
+    if(utils.isObject(qrEI)) {
+        qrEI = JSON.stringify(qrEI);
+    }
     let img = qr.image(qrText, {size: 10,ec_level:'H'});
     let arrQR = await streamToArray(img);
     let buffers = arrQR.map(function(o) {
