@@ -1,13 +1,14 @@
 {
   "name": "node-ot",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "online tools",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=production node dist/index.js",
+    "start": "npm run build && NODE_ENV=production node dist/index.js",
     "dev": "NODE_ENV=development babel-node src/index.js --plugins  dynamic-import-node",
-    "build": "babel src --out-dir dist"
+    "build": "babel src --out-dir dist",
+    "env": "env"
   },
   "repository": {
     "type": "git",
@@ -24,7 +25,9 @@
   },
   "homepage": "https://github.com/zppro/node-ot#readme",
   "dependencies": {
+    "baidu-aip-sdk": "^1.5.1",
     "co": "^4.6.0",
+    "cube-brick": "^0.1.33",
     "fs-extra": "^3.0.1",
     "koa": "^2.2.0",
     "koa-body": "^2.1.0",
@@ -32,7 +35,9 @@
     "koa-xml-body": "^1.1.0",
     "log4js": "^1.1.1",
     "qr-image": "^3.1.0",
+    "request-promise-native": "^1.0.5",
     "sharp": "^0.16.0",
+    "silk-v3-decoder-zppro": "git+ssh://git@github.com/zppro/silk-v3-decoder.git",
     "stream-to-array": "^2.3.0",
     "thunk-to-promise": "^1.0.1",
     "thunkify": "^2.1.2"
